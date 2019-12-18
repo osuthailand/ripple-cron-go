@@ -2,7 +2,7 @@ package main
 
 import "github.com/fatih/color"
 
-type score struct {
+type scoreRX struct {
 	id         int
 	beatmapMD5 string
 	userid     int
@@ -14,28 +14,28 @@ type score struct {
 	pp         float64
 }
 
-func (s score) sameAs(t score) bool {
+func (s scoreRX) sameAs(t scoreRX) bool {
 	return s.beatmapMD5 == t.beatmapMD5 &&
 		s.userid == t.userid &&
 		s.score == t.score &&
 		s.maxCombo == t.maxCombo &&
 		s.mods == t.mods &&
 		s.playMode == t.playMode &&
-		s.accuracy == t.accuracy
+		s.accuracy == t.accuracy &&
 		s.pp == t.pp
 }
 
 func opFixScoreDuplicatesRX() {
 	defer wg.Done()
 	const initQuery = "SELECT id, beatmap_md5, userid, score, max_combo, mods, play_mode, accuracy, pp FROM scores_relax WHERE completed = '3'"
-	scores := []pp{}
+	scores := []scoreRX{}
 	rows, err := db.Query(initQuery)
 	if err != nil {
 		queryError(err, initQuery)
 		return
 	}
 	for rows.Next() {
-		currentScore := pp{}
+		currentScore := scoreRX{}
 		rows.Scan(
 			&currentScore.id,
 			&currentScore.beatmapMD5,
@@ -50,7 +50,7 @@ func opFixScoreDuplicatesRX() {
 		scores = append(scores, currentScore)
 	}
 
-	verboseln("> FixScoreDuplicatesRX: Fetched, now finding duplicates")
+	verboseln("> FixScoreDuplicates: Fetched, now finding duplicates")
 
 	// duplicate removing
 	remove := []int{}
@@ -61,10 +61,10 @@ func opFixScoreDuplicatesRX() {
 		}
 		for j := i + 1; j < len(scores); j++ {
 			if ops%5000000 == 0 {
-				verboseln("> FixScoreDuplicatesRX:", ops)
+				verboseln("> FixScoreDuplicates:", ops)
 			}
 			if scores[i].sameAs(scores[j]) && !contains(remove, scores[j].id) {
-				verboseln("> FixScoreDuplicatesRX: found one!")
+				verboseln("> FixScoreDuplicates: found one!")
 				remove = append(remove, scores[j].id)
 			}
 			ops++
@@ -74,7 +74,7 @@ func opFixScoreDuplicatesRX() {
 	for _, v := range remove {
 		op("DELETE FROM scores WHERE id = ?", v)
 	}
-	color.Green("> FixScoreDuplicates [RELAX]: done!")
+	color.Green("> FixScoreDuplicates: done!")
 }
 
 func containsRX(arr []int, i int) bool {
