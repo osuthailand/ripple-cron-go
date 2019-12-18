@@ -192,6 +192,11 @@ func main() {
 		wg.Add(1)
 		go opFixScoreDuplicates()
 	}
+	if c.FixScoreDuplicates {
+		verboseln("Starting fixing score duplicates [RELAX]")
+		wg.Add(1)
+		go opFixScoreDuplicatesRX()
+	}
 	if c.CalculateOverallAccuracy {
 		verboseln("Starting calculating overall accuracy")
 		wg.Add(1)
