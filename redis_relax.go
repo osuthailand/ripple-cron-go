@@ -88,8 +88,3 @@ FROM rx_stats INNER JOIN users ON users.id = rx_stats.id WHERE privileges & 1 > 
 
 	color.Green("> PopulateRedis [RELAX]: done!")
 }
-
-func isInactive(secondsInactive float64, playcount int) bool {
-	daysInactive := secondsInactive / (60 * 60 * 24)
-	return daysInactive > (math.Log(float64(playcount)) * 16)
-}
