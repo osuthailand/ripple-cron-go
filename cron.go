@@ -182,6 +182,11 @@ func main() {
 		wg.Add(2)
 		go opCalculatePP()
 	}
+	if c.CalculatePP {
+		verboseln("Starting calculating pp [RELAX]")
+		wg.Add(2)
+		go opCalculatePPRX()
+	}
 	if c.FixScoreDuplicates {
 		verboseln("Starting fixing score duplicates")
 		wg.Add(1)
