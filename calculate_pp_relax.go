@@ -6,7 +6,7 @@ import (
 	"github.com/fatih/color"
 )
 
-type ppUserMode struct {
+type ppUserModeRX struct {
 	countScores int
 	ppTotal     int
 }
@@ -21,7 +21,7 @@ func opCalculatePPRX() {
 		return
 	}
 
-	users := make(map[int]*[4]*ppUserMode)
+	users := make(map[int]*[4]*ppUserModeRX)
 	var count int
 
 	for rows.Next() {
@@ -42,11 +42,11 @@ func opCalculatePPRX() {
 			continue
 		}
 		if users[userid] == nil {
-			users[userid] = &[4]*ppUserMode{
-				new(ppUserMode),
-				new(ppUserMode),
-				new(ppUserMode),
-				new(ppUserMode),
+			users[userid] = &[4]*ppUserModeRX{
+				new(ppUserModeRX),
+				new(ppUserModeRX),
+				new(ppUserModeRX),
+				new(ppUserModeRX),
 			}
 		}
 		if users[userid][playMode].countScores > 500 {
