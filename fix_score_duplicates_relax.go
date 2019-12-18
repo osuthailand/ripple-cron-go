@@ -77,7 +77,7 @@ func opFixScoreDuplicatesRX() {
 	color.Green("> FixScoreDuplicates [RELAX]: done!")
 }
 
-func contains(arr []int, i int) bool {
+func containsRX(arr []int, i int) bool {
 	for _, v := range arr {
 		if v == i {
 			return true
