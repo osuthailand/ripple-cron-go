@@ -207,6 +207,11 @@ func main() {
 		wg.Add(1)
 		go opFixMultipleCompletedScores()
 	}
+	if c.FixMultipleCompletedScores {
+		verboseln("Starting fixing multiple completed scores")
+		wg.Add(1)
+		go opFixMultipleCompletedScoresRX()
+	}
 	if c.ClearExpiredProfileBackgrounds {
 		verboseln("Removing profile backgrounds of expired donors")
 		wg.Add(1)
