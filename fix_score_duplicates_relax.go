@@ -14,7 +14,7 @@ type score struct {
 	pp         float64
 }
 
-func (s pp) sameAs(t pp) bool {
+func (s score) sameAs(t score) bool {
 	return s.beatmapMD5 == t.beatmapMD5 &&
 		s.userid == t.userid &&
 		s.score == t.score &&
