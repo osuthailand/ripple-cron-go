@@ -11,7 +11,7 @@ type ppUserMode struct {
 	ppTotal     int
 }
 
-func opCalculatePP() {
+func opCalculatePPRX() {
 	defer wg.Done()
 
 	const ppQuery = "SELECT scores_relax.userid, pp, scores_relax.play_mode FROM scores INNER JOIN users ON users.id=scores_relax.userid JOIN beatmaps USING(beatmap_md5) WHERE completed = 3 AND ranked >= 2 AND disable_pp = 0 AND pp IS NOT NULL ORDER BY pp DESC"
@@ -26,7 +26,7 @@ func opCalculatePP() {
 
 	for rows.Next() {
 		if count%1000 == 0 {
-			verboseln("> CalculatePP:", count)
+			verboseln("> CalculatePPRX:", count)
 		}
 		var (
 			userid   int
