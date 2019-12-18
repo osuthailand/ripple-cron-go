@@ -50,7 +50,7 @@ func opFixScoreDuplicatesRX() {
 		scores = append(scores, currentScore)
 	}
 
-	verboseln("> FixScoreDuplicates: Fetched, now finding duplicates")
+	verboseln("> FixScoreDuplicatesRX: Fetched, now finding duplicates")
 
 	// duplicate removing
 	remove := []int{}
@@ -61,10 +61,10 @@ func opFixScoreDuplicatesRX() {
 		}
 		for j := i + 1; j < len(scores); j++ {
 			if ops%5000000 == 0 {
-				verboseln("> FixScoreDuplicates:", ops)
+				verboseln("> FixScoreDuplicatesRX:", ops)
 			}
 			if scores[i].sameAs(scores[j]) && !contains(remove, scores[j].id) {
-				verboseln("> FixScoreDuplicates: found one!")
+				verboseln("> FixScoreDuplicatesRX: found one!")
 				remove = append(remove, scores[j].id)
 			}
 			ops++
@@ -72,9 +72,9 @@ func opFixScoreDuplicatesRX() {
 	}
 
 	for _, v := range remove {
-		op("DELETE FROM scores WHERE id = ?", v)
+		op("DELETE FROM scores_relax WHERE id = ?", v)
 	}
-	color.Green("> FixScoreDuplicates: done!")
+	color.Green("> FixScoreDuplicates [RELAX]: done!")
 }
 
 func containsRX(arr []int, i int) bool {
