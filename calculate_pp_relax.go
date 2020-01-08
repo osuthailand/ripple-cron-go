@@ -68,7 +68,7 @@ func opCalculatePPRX() {
 	color.Green("> CalculatePP [RELAX]: done!")
 
 	if c.PopulateRedis {
-		verboseln("Starting to populate redis")
-		go opPopulateRedis()
+		verboseln("Starting to populate redis [RELAX]")
+		go opPopulateRedisRX()
 	}
 }
