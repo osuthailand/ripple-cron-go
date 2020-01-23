@@ -132,7 +132,7 @@ func main() {
 			SET completed = '2'
 			WHERE beatmaps.ranked < 1 OR beatmaps.ranked > 5;`)
 		go opSync(`UPDATE scores_relax
-			INNER JOIN beatmaps ON beatmaps.beatmap_md5 = scores.beatmap_md5
+			INNER JOIN beatmaps ON beatmaps.beatmap_md5 = scores_relax.beatmap_md5
 			SET completed = '2'
 			WHERE beatmaps.ranked < 1 OR beatmaps.ranked > 5;`)
 	}
