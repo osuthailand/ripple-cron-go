@@ -131,6 +131,10 @@ func main() {
 			INNER JOIN beatmaps ON beatmaps.beatmap_md5 = scores.beatmap_md5
 			SET completed = '2'
 			WHERE beatmaps.ranked < 1 OR beatmaps.ranked > 5;`)
+		go opSync(`UPDATE scores_relax
+			INNER JOIN beatmaps ON beatmaps.beatmap_md5 = scores.beatmap_md5
+			SET completed = '2'
+			WHERE beatmaps.ranked < 1 OR beatmaps.ranked > 5;`)
 	}
 	if c.DeleteOldPrivateTokens {
 		verboseln("Deleting old private API tokens")
@@ -171,6 +175,11 @@ func main() {
 		verboseln("Starting fixing total scores and ranked scores overflow")
 		wg.Add(1)
 		go opFixStatsOverflow()
+	}
+	if c.FixStatsOverflow {
+		verboseln("Starting fixing total scores and ranked scores overflow [RELAX]")
+		wg.Add(1)
+		go opFixStatsOverflowRX()
 	}
 	if c.CleanReplays {
 		verboseln("Starting cleaning useless replays")
